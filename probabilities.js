@@ -1,10 +1,9 @@
 
 function createTransitionMatrix(size) {
-  // create sparse matrix as mostly zeros
-  var matrix = math.zeros(size+1, size+1, "sparse");
 
-  // for testing
-  // var matrix = math.zeros(size+1, size+1);
+  // create matrix of zeros
+  // cannot store as sparse matrix as math.multiply does not support this
+  var matrix = math.zeros(size+1, size+1);
 
   // probability for 6-sided dice
   const std_prob = 1.0/6.0;
@@ -33,4 +32,24 @@ function createTransitionMatrix(size) {
   return matrix;
 }
 
-console.log(createTransitionMatrix(10));
+
+// number of spaces on the board
+let size = 100;
+
+// create transition matrix
+let T = createTransitionMatrix(size);
+
+// create probability vector
+let v = math.zeros(size+1);
+v.subset(math.index(0), 1);
+
+// update probability vector until probability of winning is > 0.5
+let i = 0;
+while (v.subset(math.index(size)) < 0.5) {
+  v = math.multiply(v, T);
+  i++;
+}
+
+// output stuff
+console.log(v.toArray());
+console.log(i);
