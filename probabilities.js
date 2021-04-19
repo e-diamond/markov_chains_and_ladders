@@ -32,9 +32,35 @@ function createTransitionMatrix(size) {
   return matrix;
 }
 
+function createBoard(size){
+  let row_clm = math.sqrt(size);
+  let board = document.getElementById("board");
+
+  spaces = "";
+
+  for (var i = row_clm-1; i >= 0; i--) {
+    spaces += "<tr>";
+    if (i % 2 == 0) {
+      for (var j = 1; j <= row_clm; j++) {
+        let id = j+(10*i);
+        spaces += ("<td id=\"" + id + "\" class=\"space\">"+ id +"</td>");
+      }
+    } else {
+      for (var j = row_clm; j >= 1; j--) {
+        let id = j+(10*i);
+        spaces += ("<td id=\"" + id + "\" class=\"space\">"+ id +"</td>");
+      }
+    }
+    spaces += "</tr>";
+  }
+
+  board.innerHTML = spaces;
+}
 
 // number of spaces on the board
 let size = 100;
+
+createBoard(size);
 
 // create transition matrix
 let T = createTransitionMatrix(size);
