@@ -1,5 +1,5 @@
 :root {
-  --board-size: 80vh;
+  --board-size: 100vh;
 }
 
 * {
@@ -30,9 +30,11 @@ table, tr, td {
   --spot-percent: 50%;
   border-radius: 50%;
   background-color: red;
+  color: black;
   width: var(--spot-percent);
-  padding-top: var(--spot-percent);
-  opacity: 0.5;
+  height: var(--spot-percent);
+  padding: 15% 0;
+  opacity: 0;
 }
 
 #board {

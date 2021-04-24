@@ -62,7 +62,27 @@ function addProbabilitySpots() {
 
   for (var i = 0; i < spaces.length; i++) {
     spaces[i].innerHTML = "<div class=\"spot\"></div>";
+    // spaces[i].innerHTML = "<span class=\"spot\"></span>";
   }
+}
+
+// called on screen click
+function getNewProbabilities(){
+  // calculate probability vector
+  v = math.multiply(v, T);
+
+  // find max value
+  let max = Math.max(...v.toArray());
+
+  // add non-zero probabilities to screen
+  for (var i = 1; i <= size; i++) {
+    let value = v.subset(math.index(i));
+
+    let spot = document.getElementById(i).firstChild;
+    spot.style.opacity = value/max;
+    spot.innerHTML = value.toFixed(2);
+  }
+
 }
 
 // number of spaces on the board
@@ -80,13 +100,13 @@ let T = createTransitionMatrix(size);
 let v = math.zeros(size+1);
 v.subset(math.index(0), 1);
 
-// update probability vector until probability of winning is > 0.5
-let i = 0;
-while (v.subset(math.index(size)) < 0.5) {
-  v = math.multiply(v, T);
-  i++;
-}
-
-// output stuff
-console.log(v.toArray());
-console.log(i);
+// // update probability vector until probability of winning is > 0.5
+// let i = 0;
+// while (v.subset(math.index(size)) < 0.5) {
+//   v = math.multiply(v, T);
+//   i++;
+// }
+//
+// // output stuff
+// console.log(v.toArray());
+// console.log(i);
