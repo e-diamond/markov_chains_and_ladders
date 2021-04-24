@@ -43,12 +43,12 @@ function createBoard(size){
     if (i % 2 == 0) {
       for (var j = 1; j <= row_clm; j++) {
         let id = j+(10*i);
-        spaces += ("<td id=\"" + id + "\" class=\"space\">"+ id +"</td>");
+        spaces += ("<td id=\"" + id + "\" class=\"space\"></td>");
       }
     } else {
       for (var j = row_clm; j >= 1; j--) {
         let id = j+(10*i);
-        spaces += ("<td id=\"" + id + "\" class=\"space\">"+ id +"</td>");
+        spaces += ("<td id=\"" + id + "\" class=\"space\"></td>");
       }
     }
     spaces += "</tr>";
@@ -57,10 +57,21 @@ function createBoard(size){
   board.innerHTML = spaces;
 }
 
+function addProbabilitySpots() {
+  spaces = document.getElementsByClassName("space");
+
+  for (var i = 0; i < spaces.length; i++) {
+    spaces[i].innerHTML = "<div class=\"spot\"></div>";
+  }
+}
+
 // number of spaces on the board
 let size = 100;
 
+// create board
 createBoard(size);
+// add spots
+addProbabilitySpots();
 
 // create transition matrix
 let T = createTransitionMatrix(size);

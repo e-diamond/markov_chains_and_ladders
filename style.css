@@ -1,0 +1,41 @@
+:root {
+  --board-size: 80vh;
+}
+
+* {
+  margin: auto;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: #ffb845;
+}
+
+table, tr, td {
+  border-collapse: collapse;
+  border: 1px solid #ffed21;
+  background-color: #fffb82;
+}
+
+.space {
+  width: var(--board-size);
+  font-size: 10px;
+/*   text-align: left;
+  vertical-align: text-top; */
+  color: #ff2b2b;
+}
+
+.spot {
+  --spot-percent: 50%;
+  border-radius: 50%;
+  background-color: red;
+  width: var(--spot-percent);
+  padding-top: var(--spot-percent);
+  opacity: 0.5;
+}
+
+#board {
+  width: var(--board-size);
+  height: var(--board-size);
+}
