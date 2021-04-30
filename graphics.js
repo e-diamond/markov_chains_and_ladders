@@ -36,14 +36,26 @@ function draw() {
   // sort array into appropriate order
   corner_coords = boardSort(corner_coords, resolution);
 
-  // show square numbers 
+  // show numbers on game squares
   fill(0);
   noStroke();
   textAlign(LEFT, TOP);
+  textSize(square_size/5);
+  let pad = square_size/20;
 
   for (var i = 0; i < corner_coords.length; i++) {
-    text(i+1, corner_coords[i][0], corner_coords[i][1]);
+    text(i+1, corner_coords[i][0]+pad, corner_coords[i][1]+pad);
   }
+
+  // draw probability spots
+  let shift = square_size/2;
+  let spot_color = color(255,0,0);
+
+  for (var coord of corner_coords) {
+    fill(spot_color);
+    circle(coord[0]+shift, coord[1]+shift, square_size/2);
+  }
+
 }
 
 // sort an array into alternating row directions
