@@ -1,4 +1,8 @@
+var squares = 100;
 var size;
+
+var T;
+var v;
 
 function setup() {
   let scalar = 0.9;
@@ -11,6 +15,10 @@ function setup() {
   }
   let canvas = createCanvas(size, size);
   canvas.center("horizontal");
+
+  // set up transition matrix and probability vector
+  T = createTransitionMatrix(squares);
+  v = initProbVector(squares);
 }
 
 function draw() {
@@ -50,12 +58,36 @@ function draw() {
   // draw probability spots
   let shift = square_size/2;
   let spot_color = color(255,0,0);
+  let text_color = color(0);
 
-  for (var coord of corner_coords) {
-    fill(spot_color);
-    circle(coord[0]+shift, coord[1]+shift, square_size/2);
-  }
+  corner_coords.forEach((coord, i) => {
+      let center = [coord[0]+shift, coord[1]+shift];
+      let value = fetchValue(v, i+1);
 
+      let alpha = getOpacity(v, value);
+      spot_color.setAlpha(alpha);
+      // text_color.setAlpha(alpha);
+
+      fill(spot_color);
+      circle(center[0], center[1], square_size*0.6);
+
+      fill(text_color);
+      textAlign(CENTER, CENTER);
+
+      if (value.toFixed(2) > 0) {
+        text(value.toFixed(2), center[0], center[1]);
+      }
+  });
+}
+
+function mouseClicked() {
+  v = updateProbVector(v, T);
+  return false;
+}
+
+// for debugging 
+function keyPressed() {
+  noLoop();
 }
 
 // sort an array into alternating row directions
@@ -74,4 +106,9 @@ function boardSort(array, length) {
 
   // reverses before returning
   return new_array.reverse();
+}
+
+function getOpacity(vector, value) {
+  let max = Math.max(...vector.toArray());
+  return value/max*255;
 }
