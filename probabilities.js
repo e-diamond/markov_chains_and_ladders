@@ -32,81 +32,17 @@ function createTransitionMatrix(size) {
   return matrix;
 }
 
-function createBoard(size){
-  let row_clm = math.sqrt(size);
-  let board = document.getElementById("board");
+function initProbVector(size){
+  let vector = math.zeros(size+1);
+  vector.subset(math.index(0), 1);
 
-  spaces = "";
-
-  for (var i = row_clm-1; i >= 0; i--) {
-    spaces += "<tr>";
-    if (i % 2 == 0) {
-      for (var j = 1; j <= row_clm; j++) {
-        let id = j+(10*i);
-        spaces += ("<td id=\"" + id + "\" class=\"space\"></td>");
-      }
-    } else {
-      for (var j = row_clm; j >= 1; j--) {
-        let id = j+(10*i);
-        spaces += ("<td id=\"" + id + "\" class=\"space\"></td>");
-      }
-    }
-    spaces += "</tr>";
-  }
-
-  board.innerHTML = spaces;
+  return vector;
 }
 
-function addProbabilitySpots() {
-  spaces = document.getElementsByClassName("space");
-
-  for (var i = 0; i < spaces.length; i++) {
-    spaces[i].innerHTML = "<div class=\"spot\"></div>";
-    // spaces[i].innerHTML = "<span class=\"spot\"></span>";
-  }
+function newProbVector(vector, matrix) {
+  return math.multiply(vector, matrix);
 }
 
-// called on screen click
-function getNewProbabilities(){
-  // calculate probability vector
-  v = math.multiply(v, T);
-
-  // find max value
-  let max = Math.max(...v.toArray());
-
-  // add non-zero probabilities to screen
-  for (var i = 1; i <= size; i++) {
-    let value = v.subset(math.index(i));
-
-    let spot = document.getElementById(i).firstChild;
-    spot.style.opacity = value/max;
-    spot.innerHTML = value.toFixed(2);
-  }
-
+function fetchValue(vector, ind) {
+  return vector.subset(math.index(ind));
 }
-
-// number of spaces on the board
-let size = 100;
-
-// create board
-createBoard(size);
-// add spots
-addProbabilitySpots();
-
-// create transition matrix
-let T = createTransitionMatrix(size);
-
-// create probability vector
-let v = math.zeros(size+1);
-v.subset(math.index(0), 1);
-
-// // update probability vector until probability of winning is > 0.5
-// let i = 0;
-// while (v.subset(math.index(size)) < 0.5) {
-//   v = math.multiply(v, T);
-//   i++;
-// }
-//
-// // output stuff
-// console.log(v.toArray());
-// console.log(i);
