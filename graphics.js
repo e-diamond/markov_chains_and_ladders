@@ -1,88 +1,24 @@
-var squares = 100;
-var size;
+function getCornerCoords(size, sq_size) {
+  let coords = [];
 
-var T;
-var v;
-
-function setup() {
-  let scalar = 0.8;
-
-  // make canvas
-  if (windowHeight < windowWidth) {
-    size = windowHeight*scalar;
-  } else {
-    size = windowWidth*scalar;
-  }
-  let cvs = createCanvas(size, size);
-  cvs.mousePressed(updateProbVector);
-
-  // set up transition matrix and probability vector
-  T = createTransitionMatrix(squares);
-  v = initProbVector(squares);
-}
-
-function draw() {
-  // set up game spaces
-  let resolution = 10;
-  let square_size = size/resolution;
-  // store coordinates of square corners
-  let corner_coords = [];
-
-  // square colour
-  fill(255,251,130);
-  stroke(255,237,33);
-
-  // draw squares
-  for (var i = 0; i < size; i+=square_size) {
-    for (var j = 0; j < size; j+=square_size) {
-      square(j, i, square_size);
-      // add corner coordinates to array
-      corner_coords.push([j, i]);
+  for (var i = 0; i < size; i+=sq_size) {
+    for (var j = 0; j < size; j+=sq_size) {
+      coords.push([j, i]);
     }
   }
 
-  // sort array into appropriate order
-  corner_coords = boardSort(corner_coords, resolution);
-
-  // show numbers on game squares
-  fill(0);
-  noStroke();
-  textAlign(LEFT, TOP);
-  textSize(square_size/5);
-  let pad = square_size/20;
-
-  for (var i = 0; i < corner_coords.length; i++) {
-    text(i+1, corner_coords[i][0]+pad, corner_coords[i][1]+pad);
-  }
-
-  // draw probability spots
-  let shift = square_size/2;
-  let spot_color = color(255,0,0);
-  let text_color = color(0);
-
-  corner_coords.forEach((coord, i) => {
-      let center = [coord[0]+shift, coord[1]+shift];
-      let value = fetchValue(v, i+1);
-
-      let alpha = getOpacity(v, value);
-      spot_color.setAlpha(alpha);
-      // text_color.setAlpha(alpha);
-
-      fill(spot_color);
-      circle(center[0], center[1], square_size*0.6);
-
-      fill(text_color);
-      textAlign(CENTER, CENTER);
-
-      let checkbox = document.getElementById("prob_check");
-      if (checkbox.checked) {
-        text(value.toFixed(2), center[0], center[1]);
-      }
-  });
+  return coords;
 }
 
-function updateProbVector() {
-  v = newProbVector(v, T);
+function getCenterCoords(corners, sq_size) {
+  let centers = [];
+  let shift = sq_size/2;
+
+  for (var corner of corners) {
+    centers.push([corner[0]+shift, corner[1]+shift]);
+  }
+
+  return centers;
 }
 
 // sort an array into alternating row directions
@@ -103,7 +39,6 @@ function boardSort(array, length) {
   return new_array.reverse();
 }
 
-function getOpacity(vector, value) {
-  let max = Math.max(...vector.toArray());
+function getOpacity(max, value) {
   return (value/max)*255;
 }
