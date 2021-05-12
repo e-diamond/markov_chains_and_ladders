@@ -39,7 +39,7 @@ function initProbVector(size){
   return vector;
 }
 
-function updateProbVector(vector, matrix) {
+function newProbVector(vector, matrix) {
   return math.multiply(vector, matrix);
 }
 

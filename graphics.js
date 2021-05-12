@@ -5,7 +5,7 @@ var T;
 var v;
 
 function setup() {
-  let scalar = 0.9;
+  let scalar = 0.8;
 
   // make canvas
   if (windowHeight < windowWidth) {
@@ -13,8 +13,8 @@ function setup() {
   } else {
     size = windowWidth*scalar;
   }
-  let canvas = createCanvas(size, size);
-  canvas.center("horizontal");
+  let cvs = createCanvas(size, size);
+  cvs.mousePressed(updateProbVector);
 
   // set up transition matrix and probability vector
   T = createTransitionMatrix(squares);
@@ -74,20 +74,15 @@ function draw() {
       fill(text_color);
       textAlign(CENTER, CENTER);
 
-      if (value.toFixed(2) > 0) {
+      let checkbox = document.getElementById("prob_check");
+      if (checkbox.checked) {
         text(value.toFixed(2), center[0], center[1]);
       }
   });
 }
 
-function mouseClicked() {
-  v = updateProbVector(v, T);
-  return false;
-}
-
-// for debugging 
-function keyPressed() {
-  noLoop();
+function updateProbVector() {
+  v = newProbVector(v, T);
 }
 
 // sort an array into alternating row directions
@@ -110,5 +105,5 @@ function boardSort(array, length) {
 
 function getOpacity(vector, value) {
   let max = Math.max(...vector.toArray());
-  return value/max*255;
+  return (value/max)*255;
 }
