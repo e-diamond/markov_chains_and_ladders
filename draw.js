@@ -3,7 +3,8 @@ var corner_coords, ctr_coords;
 var sq_size;
 
 // DOM elements
-var checkbox;
+var checkbox, turn_counter;
+var count = 0;
 
 // for probability calculations
 var v, T;
@@ -20,12 +21,13 @@ function setup() {
     size = windowWidth*scalar;
   }
   let cvs = createCanvas(size, size);
-  
-  // update probability vector when canvas is clicked
-  cvs.mousePressed(updateProbVector);
 
-  // find checkbox
+  // update probability vector when canvas is clicked
+  cvs.mousePressed(update);
+
+  // find DOM elements
   checkbox = document.getElementById("prob_check");
+  turn_counter = document.getElementById("turn_num");
 
   // define size of board squares
   let resolution = 10;
@@ -41,8 +43,13 @@ function setup() {
   v = initProbVector(squares);
 }
 
-function updateProbVector() {
+function update() {
+  // get new probability vector
   v = newProbVector(v, T);
+
+  // update turn counter
+  count++
+  turn_counter.innerHTML = count;
 }
 
 function draw() {

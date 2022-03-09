@@ -24,3 +24,11 @@ canvas {
   height: 100vh;
   width: 25%;
 }
+
+.turns {
+  text-align: center;
+}
+
+#turn_num {
+  font-size: 10em;
+}
