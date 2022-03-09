@@ -36,6 +36,7 @@ function setup() {
   // find square coordinates
   corner_coords = boardSort(getCornerCoords(size, sq_size), resolution);
   ctr_coords = getCenterCoords(corner_coords, sq_size);
+  console.log(ctr_coords);
 
   // set up transition matrix and probability vector
   let squares = 100;
@@ -73,6 +74,19 @@ function draw() {
   corner_coords.forEach((corner, i) => {
     text(i+1, corner[0]+pad, corner[1]+pad);
   });
+
+  // draw snakes and ladders
+  strokeWeight(4);
+  stroke(0,255,0);
+  for (let pair of ladders) {
+    line(ctr_coords[pair[0]-1][0], ctr_coords[pair[0]-1][1], ctr_coords[pair[1]-1][0], ctr_coords[pair[1]-1][1]);
+  }
+  stroke(0,0,255);
+  for (let pair of snakes) {
+    line(ctr_coords[pair[0]-1][0], ctr_coords[pair[0]-1][1], ctr_coords[pair[1]-1][0], ctr_coords[pair[1]-1][1]);
+  }
+  strokeWeight(1);
+  noStroke();
 
   // draw probability spots
   let spot_color = color(255,0,0);
