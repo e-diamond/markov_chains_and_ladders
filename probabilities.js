@@ -16,7 +16,33 @@ function createTransitionMatrix(size) {
     for (var j = i+1; j <= size; j++) {
       // dice can move player a maximum of 6 spaces
       if (j <= i+6) {
-        matrix.subset(math.index(i, j), std_prob);
+        let found = false;
+
+        // check if part of ladder
+        for (var pair of ladders) {
+          if (pair[0] == j) {
+            matrix.subset(math.index(i, pair[1]), std_prob);
+            found = true;
+            break;
+          }
+        }
+
+        // check if part of snake
+        if (!found) {
+          for (var pair of snakes) {
+            if (pair[0] == j) {
+              matrix.subset(math.index(i, pair[1]), std_prob);
+              found = true;
+              break;
+            }
+          }
+        }
+
+        // else
+        if (!found) {
+          matrix.subset(math.index(i, j), std_prob);
+        }
+        
       } else {
         break;
       }
