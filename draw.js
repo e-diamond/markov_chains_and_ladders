@@ -22,7 +22,7 @@ function setup() {
   }
   let cvs = createCanvas(size, size);
 
-  // update probability vector when canvas is clicked
+  // update probability vector and turn counter when canvas is clicked
   cvs.mousePressed(update);
 
   // find DOM elements
@@ -36,7 +36,6 @@ function setup() {
   // find square coordinates
   corner_coords = boardSort(getCornerCoords(size, sq_size), resolution);
   ctr_coords = getCenterCoords(corner_coords, sq_size);
-  console.log(ctr_coords);
 
   // set up transition matrix and probability vector
   let squares = 100;
@@ -81,7 +80,7 @@ function draw() {
   for (let pair of ladders) {
     line(ctr_coords[pair[0]-1][0], ctr_coords[pair[0]-1][1], ctr_coords[pair[1]-1][0], ctr_coords[pair[1]-1][1]);
   }
-  stroke(0,0,255);
+  stroke(255,0,0);
   for (let pair of snakes) {
     line(ctr_coords[pair[0]-1][0], ctr_coords[pair[0]-1][1], ctr_coords[pair[1]-1][0], ctr_coords[pair[1]-1][1]);
   }
@@ -107,6 +106,7 @@ function draw() {
     textAlign(CENTER, CENTER);
 
     if (checkbox.checked) {
+      value = value*100;
       text(value.toFixed(2), coord[0], coord[1]);
     }
   });
