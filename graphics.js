@@ -1,9 +1,9 @@
-function getCornerCoords(size, sq_size) {
+function getCornerCoords(sq_size, res) {
   let coords = [];
 
-  for (var i = 0; i < size; i+=sq_size) {
-    for (var j = 0; j < size; j+=sq_size) {
-      coords.push([j, i]);
+  for (var i = 0; i < res; i++) {
+    for (var j = 0; j < res; j++) {
+      coords.push([j*sq_size, i*sq_size]);
     }
   }
 

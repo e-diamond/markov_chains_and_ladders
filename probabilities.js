@@ -51,12 +51,12 @@ function createTransitionMatrix(size) {
     // being less than 6 spaces from the end gives a greater probability of
     // reaching last space (winning)
     if (i > size - 6) {
-      let factor = 7 - (size - i)
-      matrix.subset(math.index(i, size), std_prob*factor)
+      let factor = 7 - (size - i);
+      matrix.subset(math.index(i, size), std_prob*factor);
     }
   }
   // player never moves from the final space once reached
-  matrix.subset(math.index(size, size), 1)
+  matrix.subset(math.index(size, size), 1);
 
   return matrix;
 }

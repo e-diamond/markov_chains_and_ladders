@@ -34,7 +34,7 @@ function setup() {
   sq_size = size/resolution;
 
   // find square coordinates
-  corner_coords = boardSort(getCornerCoords(size, sq_size), resolution);
+  corner_coords = boardSort(getCornerCoords(sq_size, resolution), resolution);
   ctr_coords = getCenterCoords(corner_coords, sq_size);
 
   // set up transition matrix and probability vector
